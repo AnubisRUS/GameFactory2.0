@@ -8,7 +8,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
 
         self.startXY = coordinate
-        self.image = pygame.image.load(r"ball.png")
+        self.image = pygame.image.load(r"Game-factory-final/Assets/ball.png")
         self.rect = self.image.get_rect()
         self.onGround = False
         self.jump = False

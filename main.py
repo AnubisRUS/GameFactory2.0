@@ -1,11 +1,16 @@
-import pygame, sys
+import pygame
+from coins import *
+from enemies import *
 from settings import *
+from player import *
+from blocks import *
 
-from player import Player
-from blocks import Block
+#Schtuffff
+score = 0
+riches = pygame.sprite.Group()
+army = pygame.sprite.Group()
 
-pygame.init()
-
+#Other Schtuffff
 screen = pygame.display.set_mode((screen_width, screen_height))
 clock = pygame.time.Clock()
 
@@ -13,6 +18,7 @@ def game():
     #sprites
     player = Player((0, 0))
     block = Block()
+    enemy = Enemy()
 
     running = True
     while running:
@@ -27,6 +33,13 @@ def game():
             player.onGround = True
         else:
             player.onGround = False
+
+        # extra_mechanics
+        if pygame.sprite.collide_mask(player, enemy):
+            game_over = True
+        if pygame.sprite.collide_mask(player, coin):
+            score += 100
+            riches.remove(coin)
 
         #rendering
         screen.fill((0, 0, 0))
