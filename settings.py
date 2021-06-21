@@ -7,3 +7,4 @@ HEIGHT = 29
 COLOR = "#888888"
 JUMP_POWER = 10
 GRAVITY = 6
+camera_speed = 5

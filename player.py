@@ -8,7 +8,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
 
         self.startXY = coordinate
-        self.image = pygame.image.load(r"Game-factory-final/Assets/ball.png")
+        self.image = pygame.image.load(r"ball.png")
         self.rect = self.image.get_rect()
         self.onGround = False
         self.jump = False
@@ -24,7 +24,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.y += GRAVITY
 
         key = pygame.key.get_pressed()
-        if key[pygame.K_a]:
+        if key[pygame.K_a] and self.rect.x > 0:
             self.rect.x -= 5
         elif key[pygame.K_d]:
             self.rect.x += 5
