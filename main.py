@@ -42,6 +42,7 @@ def main():
     hero = Player(55, 55)  # создаем героя по (x,y) координатам
     left = right = False  # по умолчанию — стоим
     up = False
+    running = False
     timer = pygame.time.Clock()
     entities = pygame.sprite.Group()  # Все объекты
     platforms = []  # то, во что мы будем врезаться или опираться
@@ -58,7 +59,7 @@ def main():
         "-                   ----     --- -",
         "-                                -",
         "--                               -",
-        "-                                -",
+        "-           ****                 -",
         "-                            --- -",
         "-                                -",
         "-                                -",
@@ -78,6 +79,10 @@ def main():
                 pf = Platform(x, y)
                 entities.add(pf)
                 platforms.append(pf)
+            if col == "*":
+                bd = BlockDie(x, y)
+                entities.add(bd)
+                platforms.append(bd)
 
             x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
         y += PLATFORM_HEIGHT  # то же самое и с высотой
@@ -90,21 +95,25 @@ def main():
         for e in pygame.event.get():  # Обрабатываем события
             if e.type == QUIT:
                 pygame.quit()
-            if e.type == KEYDOWN and e.key == K_LEFT:
+            if e.type == KEYDOWN and e.key == K_a:
                 left = True
-            if e.type == KEYDOWN and e.key == K_RIGHT:
+            if e.type == KEYDOWN and e.key == K_d:
                 right = True
-            if e.type == KEYUP and e.key == K_RIGHT:
+            if e.type == KEYUP and e.key == K_d:
                 right = False
-            if e.type == KEYUP and e.key == K_LEFT:
+            if e.type == KEYUP and e.key == K_a:
                 left = False
-            if e.type == KEYDOWN and e.key == K_UP:
+            if e.type == KEYDOWN and e.key == K_SPACE:
                 up = True
-            if e.type == KEYUP and e.key == K_UP:
+            if e.type == KEYUP and e.key == K_SPACE:
                 up = False
+            if e.type == KEYDOWN and e.key == K_LSHIFT:
+                running = True
+            if e.type == KEYUP and e.key == K_LSHIFT:
+                running = False
         screen.blit(bg, (0, 0))  # Каждую итерацию необходимо всё перерисовывать
 
-        hero.update(left, right, up, platforms)  # передвижение
+        hero.update(left, right, up, running, platforms)  # передвижение
         camera.update(hero)
         for e in entities:
             screen.blit(e.image, camera.apply(e))  # отображение

@@ -9,3 +9,7 @@ class Platform(sprite.Sprite):
         self.image = Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
         self.image = image.load("assets/images/blocks/platform.png")
         self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+class BlockDie(Platform):
+    def __init__(self, x, y):
+        Platform.__init__(self, x, y)
+        self.image = image.load("assets/images/blocks/dieBlock.png")
