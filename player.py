@@ -36,6 +36,7 @@ class Player(sprite.Sprite):
         self.rect = Rect(x, y, WIDTH, HEIGHT)  # прямоугольный объект
         self.yvel = 0  # скорость вертикального перемещения
         self.onGround = False  # На земле ли я?
+        self.winner = False
         self.image.set_colorkey(Color(COLOR))
         #        Анимация движения вправо
         boltAnim = []
@@ -135,6 +136,8 @@ class Player(sprite.Sprite):
             if sprite.collide_rect(self, p):  # если есть пересечение платформы с игроком
                 if isinstance(p, blocks.BlockDie):  # если пересакаемый блок - blocks.BlockDie
                     self.die()  # умираем
+                elif isinstance(p, blocks.BlockTeleport):
+                    self.teleporting(p.goX, p.goY)
                 else:
                     if xvel > 0:  # если движется вправо
                         self.rect.right = p.rect.left  # то не движется вправо
