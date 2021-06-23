@@ -35,9 +35,9 @@ class BlockTeleport(Platform):
             boltAnim.append((anim, 0.1))
         self.boltAnim = pyganim.PygAnimation(boltAnim)
         self.boltAnim.play()
-
     def update(self):
-        self.boltAnim.blit(self.image, (0, 0))
+        self.image.set_colorkey((41, 56, 86))
+        self.boltAnim.blit(self.image, self.image.get_rect())
 
 class Exit(Platform):
     def __init__(self, x, y):

@@ -138,6 +138,8 @@ class Player(sprite.Sprite):
                     self.die()  # умираем
                 elif isinstance(p, blocks.BlockTeleport):
                     self.teleporting(p.goX, p.goY)
+                elif isinstance(p, blocks.Exit):  # если коснулись принцессы
+                    self.winner = True  # победили!!!
                 else:
                     if xvel > 0:  # если движется вправо
                         self.rect.right = p.rect.left  # то не движется вправо
