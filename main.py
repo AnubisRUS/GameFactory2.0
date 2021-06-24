@@ -2,15 +2,19 @@
 # -*- coding: utf-8 -*-
 
 # Импортируем библиотеку pygame
-import pygame
+import pygame, sys
 from pygame import *
 from player import *
 from blocks import *
+from buttons import *
+
+pygame.init()
 # Объявляем переменные
 WIN_WIDTH = 1200  # Ширина создаваемого окна
 WIN_HEIGHT = 700  # Высота
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT)  # Группируем ширину и высоту в одну переменную
 BACKGROUND_COLOR = "#3b687b"
+screen = pygame.display.set_mode(DISPLAY)  # Создаем окошко
 class Camera(object):
     def __init__(self, camera_func, width, height):
         self.camera_func = camera_func
@@ -33,11 +37,51 @@ def camera_configure(camera, target_rect):
 
     return Rect(l, t, w, h)
 
+def mainmenu():
+    #fonts
+    fnpx = pygame.font.Font("assets/fonts/ancient-modern-tales-font/AncientModernTales-a7Po.ttf", 72)
+
+    #sprites
+    clock = pygame.time.Clock()
+    game_caption = fnpx.render("Fall of Darkness", True, (255, 255, 255))
+    playbutton = Button(r"assets/design/playbutton.png", (735, 281))
+    tutorialbutton = Button(r"assets/design/tutorialbutton.png", (735, 443))
+    exitbutton = Button(r"assets/design/exitbutton.png", (735, 580))
+
+    running = True
+    while running:
+
+        clock.tick(60)
+
+        #events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if playbutton.rect.collidepoint(pygame.mouse.get_pos()):
+                    main()
+                if tutorialbutton.rect.collidepoint(pygame.mouse.get_pos()):
+                    pass
+                if exitbutton.rect.collidepoint(pygame.mouse.get_pos()):
+                    pygame.quit()
+                    sys.exit()
+
+        #rendering
+        screen.fill((0, 0, 0))
+        screen.blit(game_caption, (700, 95))
+        playbutton.draw(screen)
+        tutorialbutton.draw(screen)
+        exitbutton.draw(screen)
+        # updates
+        pygame.display.update()
 
 def main():
+    global screen
     loadLevel()
     pygame.init()  # Инициация PyGame, обязательная строчка
-    screen = pygame.display.set_mode(DISPLAY)  # Создаем окошко
+
     pygame.display.set_caption("Fall Of Darkness")  # Пишем в шапку
     bg = Surface((WIN_WIDTH, WIN_HEIGHT))  # Создание видимой поверхности
     # будем использовать как фон
@@ -126,5 +170,5 @@ entities = pygame.sprite.Group()  # Все объекты
 animatedEntities = pygame.sprite.Group()
 platforms = []
 if __name__ == "__main__":
-    main()
+    mainmenu()
 
