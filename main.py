@@ -12,6 +12,8 @@ WIN_WIDTH = 1200  # Ширина создаваемого окна
 WIN_HEIGHT = 700  # Высота
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT)  # Группируем ширину и высоту в одну переменную
 BACKGROUND_COLOR = "#3b687b"
+level__number_open = open(r"save.txt", "r+")
+level__number = int(level__number_open.read(1))
 pygame.init()
 screen = pygame.display.set_mode(DISPLAY)
 class Camera(object):
@@ -64,7 +66,7 @@ def mainmenu():
                     sys.exit()
 
         # rendering
-        screen.fill((0, 0, 0))
+        screen.blit(pygame.image.load('assets/images/bg/bgm.jpg'), (0,0))
         screen.blit(game_caption, (700, 95))
         playbutton.draw(screen)
         exitbutton.draw(screen)
@@ -73,7 +75,7 @@ def mainmenu():
 
 
 def main():
-    global screen, entities, animatedEntities, platforms
+    global screen, entities, animatedEntities, platforms, level__number
     entities = pygame.sprite.Group()
     animatedEntities = pygame.sprite.Group()
     loadLevel()
@@ -143,6 +145,13 @@ def main():
             screen.blit(e.image, camera.apply(e))
 
         pygame.display.update()
+    else:
+        level__number+=1
+        level_load = open(r"save.txt", "r+")
+        level_load.write(str(level__number))
+        print(level__number)
+        level_load.close()
+        main()
 
 def loadLevel():
     global level, entities, animatedEntities, platforms
@@ -151,8 +160,13 @@ def loadLevel():
     animatedEntities = pygame.sprite.Group()
     platforms = []
     global playerX, playerY
+    level_load = open(r"save.txt", "r+")
+    level_num = level_load.read(1)
 
-    levelFile = open('assets/levels/lv1.txt')
+    if level_num == "1":
+        levelFile = open('assets/levels/lv1.txt')
+    elif level_num == "2":
+        levelFile = open('assets/levels/lv2.txt')
     line = " "
     while line[0] != "/":
         line = levelFile.readline()
