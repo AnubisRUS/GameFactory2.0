@@ -73,7 +73,9 @@ def mainmenu():
 
 
 def main():
-    global screen
+    global screen, entities, animatedEntities, platforms
+    entities = pygame.sprite.Group()
+    animatedEntities = pygame.sprite.Group()
     loadLevel()
     pygame.init()
     screen = pygame.display.set_mode(DISPLAY)
@@ -143,6 +145,11 @@ def main():
         pygame.display.update()
 
 def loadLevel():
+    global level, entities, animatedEntities, platforms
+    level = []
+    entities = pygame.sprite.Group()
+    animatedEntities = pygame.sprite.Group()
+    platforms = []
     global playerX, playerY
 
     levelFile = open('assets/levels/lv1.txt')
@@ -169,4 +176,3 @@ animatedEntities = pygame.sprite.Group()
 platforms = []
 if __name__ == "__main__":
     mainmenu()
-

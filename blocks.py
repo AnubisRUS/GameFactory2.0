@@ -16,7 +16,6 @@ ANIMATION_BLOCKTELEPORT = [
 class Platform(sprite.Sprite):
     def __init__(self, x, y):
         sprite.Sprite.__init__(self)
-        self.image = Surface((PLATFORM_WIDTH, PLATFORM_HEIGHT))
         self.image = image.load("assets/images/blocks/platform.png")
         self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
 class BlockDie(Platform):
@@ -35,6 +34,7 @@ class BlockTeleport(Platform):
         Platform.__init__(self, x, y)
         self.goX = goX
         self.goY = goY
+        self.image = pygame.image.load('assets/images/portal/portal1.png')
         boltAnim = []
         for anim in ANIMATION_BLOCKTELEPORT:
             boltAnim.append((anim, 0.1))
