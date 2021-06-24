@@ -23,13 +23,18 @@ class BlockDie(Platform):
     def __init__(self, x, y):
         Platform.__init__(self, x, y)
         self.image = image.load("assets/images/blocks/dieBlock.png")
-
-
+class GhostBlock(Platform):
+    def __init__(self, x, y, images):
+        Platform.__init__(self, x, y)
+        if images == '':
+            self.image = image.load("assets/images/blocks/platform.png")
+        else:
+            self.image = images
 class BlockTeleport(Platform):
     def __init__(self, x, y, goX, goY):
         Platform.__init__(self, x, y)
-        self.goX = goX  # координаты назначения перемещения
-        self.goY = goY  # координаты назначения перемещения
+        self.goX = goX
+        self.goY = goY
         boltAnim = []
         for anim in ANIMATION_BLOCKTELEPORT:
             boltAnim.append((anim, 0.1))

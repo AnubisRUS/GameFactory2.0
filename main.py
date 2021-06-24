@@ -2,19 +2,18 @@
 # -*- coding: utf-8 -*-
 
 # Импортируем библиотеку pygame
-import pygame, sys
+import pygame
 from pygame import *
 from player import *
 from blocks import *
 from buttons import *
-
-pygame.init()
 # Объявляем переменные
 WIN_WIDTH = 1200  # Ширина создаваемого окна
 WIN_HEIGHT = 700  # Высота
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT)  # Группируем ширину и высоту в одну переменную
 BACKGROUND_COLOR = "#3b687b"
-screen = pygame.display.set_mode(DISPLAY)  # Создаем окошко
+pygame.init()
+screen = pygame.display.set_mode(DISPLAY)
 class Camera(object):
     def __init__(self, camera_func, width, height):
         self.camera_func = camera_func
@@ -38,14 +37,12 @@ def camera_configure(camera, target_rect):
     return Rect(l, t, w, h)
 
 def mainmenu():
-    #fonts
     fnpx = pygame.font.Font("assets/fonts/ancient-modern-tales-font/AncientModernTales-a7Po.ttf", 72)
 
-    #sprites
+    # sprites
     clock = pygame.time.Clock()
     game_caption = fnpx.render("Fall of Darkness", True, (255, 255, 255))
     playbutton = Button(r"assets/design/playbutton.png", (735, 281))
-    tutorialbutton = Button(r"assets/design/tutorialbutton.png", (735, 443))
     exitbutton = Button(r"assets/design/exitbutton.png", (735, 580))
 
     running = True
@@ -53,7 +50,7 @@ def mainmenu():
 
         clock.tick(60)
 
-        #events
+        # events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -62,40 +59,36 @@ def mainmenu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if playbutton.rect.collidepoint(pygame.mouse.get_pos()):
                     main()
-                if tutorialbutton.rect.collidepoint(pygame.mouse.get_pos()):
-                    pass
                 if exitbutton.rect.collidepoint(pygame.mouse.get_pos()):
                     pygame.quit()
                     sys.exit()
 
-        #rendering
+        # rendering
         screen.fill((0, 0, 0))
         screen.blit(game_caption, (700, 95))
         playbutton.draw(screen)
-        tutorialbutton.draw(screen)
         exitbutton.draw(screen)
         # updates
         pygame.display.update()
 
+
 def main():
     global screen
     loadLevel()
-    pygame.init()  # Инициация PyGame, обязательная строчка
+    pygame.init()
+    screen = pygame.display.set_mode(DISPLAY)
+    pygame.display.set_caption("Fall Of Darkness")
+    bg = pygame.image.load('assets/images/bg/bgg.png')
 
-    pygame.display.set_caption("Fall Of Darkness")  # Пишем в шапку
-    bg = Surface((WIN_WIDTH, WIN_HEIGHT))  # Создание видимой поверхности
-    # будем использовать как фон
-    bg.fill(Color(BACKGROUND_COLOR))  # Заливаем поверхность сплошным цветом
-      # создаем героя по (x,y) координатам
-    left = right = False  # по умолчанию — стоим
-    up = False
+    screen.blit(bg, (0,0))
+    left = right = False
     running = False
     hero = Player(playerX, playerY)
     entities.add(hero)
     timer = pygame.time.Clock()
-    x = y = 0  # координаты
-    for row in level:  # вся строка
-        for col in row:  # каждый символ
+    x = y = 0
+    for row in level:
+        for col in row:
             if col == "-":
                 pf = Platform(x, y)
                 entities.add(pf)
@@ -104,19 +97,23 @@ def main():
                 bd = BlockDie(x, y)
                 entities.add(bd)
                 platforms.append(bd)
+            if col == "+":
+                gb = GhostBlock(x, y, '')
+                entities.add(gb)
+                platforms.append(gb)
             if col == "E":
                 e = Exit(x, y)
                 entities.add(e)
                 platforms.append(e)
-            x += PLATFORM_WIDTH  # блоки платформы ставятся на ширине блоков
-        y += PLATFORM_HEIGHT  # то же самое и с высотой
-        x = 0  # на каждой новой строчке начинаем с нуля
-    total_level_width = len(level[0]) * PLATFORM_WIDTH  # Высчитываем фактическую ширину уровня
-    total_level_height = len(level) * PLATFORM_HEIGHT  # высоту
+            x += PLATFORM_WIDTH
+        y += PLATFORM_HEIGHT
+        x = 0  #
+    total_level_width = len(level[0]) * PLATFORM_WIDTH
+    total_level_height = len(level) * PLATFORM_HEIGHT
     camera = Camera(camera_configure, total_level_width, total_level_height)
-    while not hero.winner:  # Основной цикл программы
+    while not hero.winner:
         timer.tick(60)
-        for e in pygame.event.get():  # Обрабатываем события
+        for e in pygame.event.get():
             if e.type == QUIT:
                 pygame.quit()
             if e.type == KEYDOWN and e.key == K_a:
@@ -135,17 +132,17 @@ def main():
                 running = True
             if e.type == KEYUP and e.key == K_LSHIFT:
                 running = False
-        screen.blit(bg, (0, 0))  # Каждую итерацию необходимо всё перерисовывать
+        screen.blit(bg, (0, 0))
         animatedEntities.update()
         camera.update(hero)
-        hero.update(left, right, up, running, platforms)  # передвижение
+        hero.update(left, right, up, running, platforms)
         for e in entities:
-            screen.blit(e.image, camera.apply(e))  # отображение
+            screen.blit(e.image, camera.apply(e))
 
-        pygame.display.update()  # обновление и вывод всех изменений на экран
+        pygame.display.update()
 
 def loadLevel():
-    global playerX, playerY  # объявляем глобальные переменные, это координаты героя
+    global playerX, playerY
 
     levelFile = open('assets/levels/lv1.txt')
     line = " "
@@ -166,7 +163,7 @@ def loadLevel():
                     platforms.append(tp)
                     animatedEntities.add(tp)
 level = []
-entities = pygame.sprite.Group()  # Все объекты
+entities = pygame.sprite.Group()
 animatedEntities = pygame.sprite.Group()
 platforms = []
 if __name__ == "__main__":
