@@ -82,6 +82,7 @@ def main():
 
     screen.blit(bg, (0,0))
     left = right = False
+    up = False
     running = False
     hero = Player(playerX, playerY)
     entities.add(hero)
