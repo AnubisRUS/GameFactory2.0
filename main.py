@@ -47,7 +47,7 @@ def mainmenu():
     clock = pygame.time.Clock()
     game_caption = fnpx.render("Fall of Darkness", True, (255, 255, 255))
     playbutton = Button(r"assets/design/playbutton.png", (735, 281))
-    levelmenubutton = Button(r"assets/design/exitbutton.png", (735, 443))
+    levelmenubutton = Button(r"assets/design/levelmenubutton.png", (735, 443))
     exitbutton = Button(r"assets/design/exitbutton.png", (735, 580))
 
     running = True

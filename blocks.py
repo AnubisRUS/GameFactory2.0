@@ -35,7 +35,7 @@ class GhostBlock(Platform1):
     def __init__(self, x, y, images):
         Platform1.__init__(self, x, y)
         if images == '':
-            self.image = image.load("assets/images/blocks/platform.png")
+            self.image = image.load("assets/images/blocks/plarform1.png")
         else:
             self.image = images
 class BlockTeleport(Platform1):
