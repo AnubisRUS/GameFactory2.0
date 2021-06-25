@@ -165,12 +165,8 @@ def main():
     x = y = 0
     for row in level:
         for col in row:
-            if col == "_":
-                pf = Platform1(x, y)
-                entities.add(pf)
-                platforms.append(pf)
             if col == "-":
-                pf = Platform2(x, y)
+                pf = Platform(x, y)
                 entities.add(pf)
                 platforms.append(pf)
             if col == "^":
