@@ -18,6 +18,7 @@ level__number_open = open(r"save.txt", "r+")
 level__number = int(level__number_open.read(1))
 pygame.init()
 screen = pygame.display.set_mode(DISPLAY)
+pygame.display.set_caption("Fall Of Darkness")
 class Camera(object):
     def __init__(self, camera_func, width, height):
         self.camera_func = camera_func
@@ -254,6 +255,9 @@ def loadLevel(level_num=""):
     elif level_num == "5":
         levelFile = open('assets/levels/lv5.txt')
     else:
+        level_load = open(r"save.txt", "r+")
+        level_load.write("1")
+        level_load.close()
         mainmenu()
     line = " "
     while line[0] != "/":
