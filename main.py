@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Импортируем библиотеку pygame
+import sys
+
 import pygame
 from pygame import *
 from player import *
@@ -45,6 +47,7 @@ def mainmenu():
     clock = pygame.time.Clock()
     game_caption = fnpx.render("Fall of Darkness", True, (255, 255, 255))
     playbutton = Button(r"assets/design/playbutton.png", (735, 281))
+    levelmenubutton = Button(r"assets/design/exitbutton.png", (735, 443))
     exitbutton = Button(r"assets/design/exitbutton.png", (735, 580))
 
     running = True
@@ -61,6 +64,8 @@ def mainmenu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if playbutton.rect.collidepoint(pygame.mouse.get_pos()):
                     main()
+                if levelmenubutton.rect.collidepoint(pygame.mouse.get_pos()):
+                    levelmenu()
                 if exitbutton.rect.collidepoint(pygame.mouse.get_pos()):
                     pygame.quit()
                     sys.exit()
@@ -69,8 +74,74 @@ def mainmenu():
         screen.blit(pygame.image.load('assets/images/bg/bgm.jpg'), (0,0))
         screen.blit(game_caption, (700, 95))
         playbutton.draw(screen)
+        levelmenubutton.draw(screen)
         exitbutton.draw(screen)
         # updates
+        pygame.display.update()
+
+def levelmenu():
+    global level__number
+
+    clock = pygame.time.Clock()
+    backbtn = Button(r"assets/images/btns/backbtn.png", (76, 92))
+    level1btn = Button(r"assets/images/btns/notbtn.png", (333, 92))
+    level2btn = Button(r"assets/images/btns/notbtn2.png", (333, 159))
+    level3btn = Button(r"assets/images/btns/notbtn3.png", (333, 225))
+    level4btn = Button(r"assets/images/btns/notbtn4.png", (333, 292))
+    level5btn = Button(r"assets/images/btns/notbtn5.png", (333, 360))
+
+    running = True
+    while running:
+
+        clock.tick(60)
+
+        # events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if backbtn.rect.collidepoint(pygame.mouse.get_pos()):
+                    mainmenu()
+                if level1btn.rect.collidepoint(pygame.mouse.get_pos()):
+                    level__number = 1
+                    level_load = open(r"save.txt", "r+")
+                    level_load.write("1")
+                    level_load.close()
+                    main()
+                if level2btn.rect.collidepoint(pygame.mouse.get_pos()):
+                    level__number = 2
+                    level_load = open(r"save.txt", "r+")
+                    level_load.write("2")
+                    level_load.close()
+                    main()
+                if level3btn.rect.collidepoint(pygame.mouse.get_pos()):
+                    level__number = 3
+                    level_load = open(r"save.txt", "r+")
+                    level_load.write("3")
+                    level_load.close()
+                    main()
+                if level4btn.rect.collidepoint(pygame.mouse.get_pos()):
+                    level__number = 4
+                    level_load = open(r"save.txt", "r+")
+                    level_load.write("4")
+                    level_load.close()
+                    main()
+                if level5btn.rect.collidepoint(pygame.mouse.get_pos()):
+                    level__number = 5
+                    level_load = open(r"save.txt", "r+")
+                    level_load.write("5")
+                    level_load.close()
+                    main()
+
+        screen.blit(pygame.image.load('assets/images/bg/bgg.png'), (0, 0))
+        backbtn.draw(screen)
+        level1btn.draw(screen)
+        level2btn.draw(screen)
+        level3btn.draw(screen)
+        level4btn.draw(screen)
+        level5btn.draw(screen)
         pygame.display.update()
 
 
@@ -82,7 +153,7 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode(DISPLAY)
     pygame.display.set_caption("Fall Of Darkness")
-    bg = pygame.image.load('assets/images/bg/bgg.png')
+    bg = pygame.image.load(r'assets/images/bg/bgg.png')
 
     screen.blit(bg, (0,0))
     left = right = False
@@ -125,6 +196,7 @@ def main():
         for e in pygame.event.get():
             if e.type == QUIT:
                 pygame.quit()
+                sys.exit()
             if e.type == KEYDOWN and e.key == K_a:
                 left = True
             if e.type == KEYDOWN and e.key == K_d:
@@ -157,7 +229,7 @@ def main():
         level_load.close()
         main()
 
-def loadLevel():
+def loadLevel(level_num=""):
     global level, entities, animatedEntities, platforms
     level = []
     entities = pygame.sprite.Group()
@@ -166,6 +238,7 @@ def loadLevel():
     global playerX, playerY
     level_load = open(r"save.txt", "r+")
     level_num = level_load.read(1)
+
     if level_num == "1":
         levelFile = open('assets/levels/lv1.txt')
     elif level_num == "2":
@@ -176,6 +249,8 @@ def loadLevel():
         levelFile = open('assets/levels/lv4.txt')
     elif level_num == "5":
         levelFile = open('assets/levels/lv5.txt')
+    else:
+        mainmenu()
     line = " "
     while line[0] != "/":
         line = levelFile.readline()
