@@ -98,8 +98,12 @@ def main():
                 pf = Platform(x, y)
                 entities.add(pf)
                 platforms.append(pf)
+            if col == "^":
+                bd = BlockDie1(x, y)
+                entities.add(bd)
+                platforms.append(bd)
             if col == "*":
-                bd = BlockDie(x, y)
+                bd = BlockDie2(x, y)
                 entities.add(bd)
                 platforms.append(bd)
             if col == "+":
@@ -162,7 +166,6 @@ def loadLevel():
     global playerX, playerY
     level_load = open(r"save.txt", "r+")
     level_num = level_load.read(1)
-
     if level_num == "1":
         levelFile = open('assets/levels/lv1.txt')
     elif level_num == "2":

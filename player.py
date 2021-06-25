@@ -132,7 +132,7 @@ class Player(sprite.Sprite):
     def collide(self, xvel, yvel, platforms):
         for p in platforms:
             if sprite.collide_rect(self, p):
-                if isinstance(p, blocks.BlockDie):
+                if isinstance(p, blocks.BlockDie1) or isinstance(p, blocks.BlockDie2):
                     self.die()
                 elif isinstance(p, blocks.BlockTeleport):
                     self.teleporting(p.goX, p.goY)

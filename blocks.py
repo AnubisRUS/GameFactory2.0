@@ -18,10 +18,14 @@ class Platform(sprite.Sprite):
         sprite.Sprite.__init__(self)
         self.image = image.load("assets/images/blocks/platform.png")
         self.rect = Rect(x, y, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-class BlockDie(Platform):
+class BlockDie1(Platform):
     def __init__(self, x, y):
         Platform.__init__(self, x, y)
-        self.image = image.load("assets/images/blocks/dieBlock.png")
+        self.image = image.load("assets/images/blocks/dieBlock1.png")
+class BlockDie2(Platform):
+    def __init__(self, x, y):
+        Platform.__init__(self, x, y)
+        self.image = image.load("assets/images/blocks/dieBlock2.png")
 class GhostBlock(Platform):
     def __init__(self, x, y, images):
         Platform.__init__(self, x, y)
