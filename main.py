@@ -167,6 +167,12 @@ def loadLevel():
         levelFile = open('assets/levels/lv1.txt')
     elif level_num == "2":
         levelFile = open('assets/levels/lv2.txt')
+    elif level_num == "3":
+        levelFile = open('assets/levels/lv3.txt')
+    elif level_num == "4":
+        levelFile = open('assets/levels/lv4.txt')
+    elif level_num == "5":
+        levelFile = open('assets/levels/lv5.txt')
     line = " "
     while line[0] != "/":
         line = levelFile.readline()
