@@ -17,8 +17,12 @@ BACKGROUND_COLOR = "#3b687b"
 level__number_open = open(r"save.txt", "r+")
 level__number = int(level__number_open.read(1))
 pygame.init()
+pygame.mixer.init()
 screen = pygame.display.set_mode(DISPLAY)
 pygame.display.set_caption("Fall Of Darkness")
+pygame.mixer.music.load('assets/music/main.mp3')
+pygame.mixer.music.set_volume(0.2)
+pygame.mixer.music.play(-1)
 class Camera(object):
     def __init__(self, camera_func, width, height):
         self.camera_func = camera_func
